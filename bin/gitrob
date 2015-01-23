@@ -40,7 +40,7 @@ class App
         db_string = "#{db_type}://#{username}:#{password}@#{hostname}:#{port}/#{database}"
 
       else
-        db_string = "sqlite://../datastore.db"
+        db_string = "sqlite:///tmp/datastore.db"
       
       end
 

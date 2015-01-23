@@ -1,4 +1,7 @@
 runtime: ruby21
-run: exec bin/gitrob
+
 config: exec bin/gitrob --configure
-run_web: exec bin/gitrob --start-server
+
+help: exec bin/gitrob --help
+
+run_web: exec bin/gitrob -s
