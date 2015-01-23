@@ -29,11 +29,20 @@ class App
     if !Gitrob::configured? || options.include?('configure')
       Gitrob::status("Starting Gitrob configuration wizard\n\n")
 
-      hostname = ask("#{Paint[" Enter PostgreSQL hostname:", :bright, :white]} ") { |q| q.default = "localhost" }
-      port     = ask("#{Paint[" Enter PostgreSQL port:", :bright, :white]} ", Integer) { |q| q.default = 5432; q.in = 1..65535 }
-      username = ask("#{Paint[" Enter PostgreSQL username:", :bright, :white]} ")
-      password = ask("#{Paint[" Enter PostgreSQL password for #{username} (masked):", :bright, :white]} ") { |q| q.echo = 'x' }
-      database = ask("#{Paint[" Enter PostgreSQL database name:", :bright, :white]} ") { |q| q.default = 'gitrob' }
+      db_type = ask("#{Paint[" Database Type? (mysql or postgres or sqlite):", :bright, :white]} ") { |q| q.default = "sqlite" }
+
+      if db_type.eql?('postgres') || db_type.eql?('mysql')
+        hostname  = ask("#{Paint[" Enter Database hostname:", :bright, :white]} ") { |q| q.default = "localhost" }
+        port      = ask("#{Paint[" Enter Database port:", :bright, :white]} ", Integer) { |q| q.default = 5432; q.in = 1..65535 }
+        username  = ask("#{Paint[" Enter Database username:", :bright, :white]} ")
+        password  = ask("#{Paint[" Enter Database password for #{username} (masked):", :bright, :white]} ") { |q| q.echo = 'x' }
+        database  = ask("#{Paint[" Enter Database database name:", :bright, :white]} ") { |q| q.default = 'gitrob' }
+        db_string = "#{db_type}://#{username}:#{password}@#{hostname}:#{port}/#{database}"
+
+      else
+        db_string = "sqlite://../datastore.db"
+      
+      end
 
       access_tokens = Array.new
       while access_tokens.uniq.empty?
@@ -44,7 +53,7 @@ class App
       end
 
       config = {
-        'sql_connection_uri'   => "postgres://#{username}:#{password}@#{hostname}:#{port}/#{database}",
+        'sql_connection_uri'   => "#{db_string}",
         'github_access_tokens' => access_tokens.uniq
       }
 

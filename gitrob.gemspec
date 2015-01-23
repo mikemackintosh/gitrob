@@ -28,6 +28,9 @@ Gem::Specification.new do |spec|
   spec.add_dependency "thin", "~> 1.6"
   spec.add_dependency "datamapper", "~> 1.2"
   spec.add_dependency "dm-postgres-adapter"
+  spec.add_dependency "dm-sqlite-adapter"
+  spec.add_dependency "dm-mysql-adapter"
+
 
   spec.add_development_dependency "bundler", "~> 1.7"
   spec.add_development_dependency "rake", "~> 10.0"
