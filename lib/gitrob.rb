@@ -88,7 +88,8 @@ module Gitrob
   end
 
   def self.configured?
-    File.exists?("#{Dir.home}/.gitrobrc")
+    conf_file = ENV['CONFIG_FILE'] || "#{Dir.home}/.gitrobrc"
+    File.exists?(conf_file)
   end
 
   def self.configuration
@@ -96,7 +97,8 @@ module Gitrob
   end
 
   def self.load_configuration!
-    YAML.load_file("#{Dir.home}/.gitrobrc")
+    conf_file = ENV['CONFIG_FILE'] || "#{Dir.home}/.gitrobrc"
+    YAML.load_file(conf_file)
   end
 
   def self.save_configuration!(config)
