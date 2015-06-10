@@ -15,55 +15,6 @@ class App
     puts Paint[Gitrob::banner, :bright, :blue] unless options.include?('no-banner')
     Gitrob::status("Starting Gitrob version #{Gitrob::VERSION} at #{Time.now.strftime("%Y-%m-%d %I:%S %Z")}")
 
-    if !Gitrob::agreement_accepted?
-      puts Gitrob::agreement
-      print Paint["\n\nDo you agree to the terms of use? [y/n]: ", :bright, :green]
-      choice = $stdin.gets.chomp
-      if %w{y yes}.include?(choice)
-        Gitrob::agreement_accepted
-      else
-        Gitrob::fatal("Exiting Gitrob.")
-      end
-    end
-
-    if !Gitrob::configured? || options.include?('configure')
-      Gitrob::status("Starting Gitrob configuration wizard\n\n")
-
-      db_type = ask("#{Paint[" Database Type? (mysql or postgres or sqlite):", :bright, :white]} ") { |q| q.default = "sqlite" }
-
-      if db_type.eql?('postgres') || db_type.eql?('mysql')
-        hostname  = ask("#{Paint[" Enter Database hostname:", :bright, :white]} ") { |q| q.default = "localhost" }
-        port      = ask("#{Paint[" Enter Database port:", :bright, :white]} ", Integer) { |q| q.default = 5432; q.in = 1..65535 }
-        username  = ask("#{Paint[" Enter Database username:", :bright, :white]} ")
-        password  = ask("#{Paint[" Enter Database password for #{username} (masked):", :bright, :white]} ") { |q| q.echo = 'x' }
-        database  = ask("#{Paint[" Enter Database database name:", :bright, :white]} ") { |q| q.default = 'gitrob' }
-        db_string = "#{db_type}://#{username}:#{password}@#{hostname}:#{port}/#{database}"
-
-      else
-        db_string = "sqlite:///tmp/datastore.db"
-      
-      end
-
-      access_tokens = Array.new
-      while access_tokens.uniq.empty?
-        access_tokens = ask(Paint[" Enter GitHub access tokens (blank line to stop):", :bright, :white],
-                          lambda { |ans| ans =~ /[a-f0-9]{40}/ ? ans : nil } ) do |q|
-          q.gather = ""
-        end
-      end
-
-      config = {
-        'sql_connection_uri'   => "#{db_string}",
-        'github_access_tokens' => access_tokens.uniq
-      }
-
-      Gitrob::task("Saving configuration to file...") do
-        Gitrob::save_configuration!(config)
-      end
-
-      exit unless options['organization']
-    end
-
     Gitrob::task("Loading configuration...") do
       Gitrob::load_configuration!
     end

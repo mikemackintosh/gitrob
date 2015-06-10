@@ -27,8 +27,6 @@ Gem::Specification.new do |spec|
   spec.add_dependency "sinatra", "~> 1.4"
   spec.add_dependency "thin", "~> 1.6"
   spec.add_dependency "datamapper", "~> 1.2"
-  spec.add_dependency "dm-postgres-adapter"
-  spec.add_dependency "dm-sqlite-adapter"
   spec.add_dependency "dm-mysql-adapter"
 
 
