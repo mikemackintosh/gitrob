@@ -64,25 +64,6 @@ module Gitrob
     end
   end
 
-  def self.agreement_accepted?
-    File.exists?("#{File.dirname(__FILE__)}/../agreement")
-  end
-
-  def self.agreement
-    "\n#{self.license}\n\n" +
-
-    Paint["Gitrob is designed for security professionals. If you use any information\n" +
-          "found through this tool for malicious purposes that are not authorized by\n" +
-          "the organization, you are violating the terms of use and license of this\n" +
-          "tool. By typing y/yes, you agree to the terms of use and that you will use\n" +
-          "this tool for lawful purposes only.",
-          :bright, :red]
-  end
-
-  def self.agreement_accepted
-    File.open("#{File.dirname(__FILE__)}/../agreement", 'w') { |file| file.write("user accepted") }
-  end
-
   def self.license
     File.read("#{File.dirname(__FILE__)}/../LICENSE.txt")
   end
