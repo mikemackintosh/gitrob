@@ -69,7 +69,7 @@ module Gitrob
   end
 
   def self.configured?
-    conf_file = ENV['CONFIG_FILE'] || "#{Dir.home}/.gitrobrc"
+    conf_file = ENV['CONFIG_FILE'] ||= "#{Dir.home}/.gitrobrc"
     File.exists?(conf_file)
   end
 
@@ -78,13 +78,14 @@ module Gitrob
   end
 
   def self.load_configuration!
-    conf_file = ENV['CONFIG_FILE'] || "#{Dir.home}/.gitrobrc"
+    conf_file = ENV['CONFIG_FILE'] ||= "#{Dir.home}/.gitrobrc"
     YAML.load_file(conf_file)
   end
 
   def self.save_configuration!(config)
     @config = config
-    File.open("#{Dir.home}/.gitrobrc", 'w') { |f| f.write YAML.dump(config) }
+    conf_file = ENV['CONFIG_FILE'] ||= "#{Dir.home}/.gitrobrc"
+    File.open(conf_file, 'w') { |f| f.write YAML.dump(config) }
   end
 
   def self.banner
