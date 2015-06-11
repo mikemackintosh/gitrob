@@ -93,7 +93,8 @@ module Gitrob
   ___|_| |_ ___ ___| |_
  | . | |  _|  _| . | . |
  |_  |_|_| |_| |___|___|
- |___| #{Paint["By @michenriksen", :bright, :white]}
+ |___| #{Paint["as modified by", :bright, :white]}
+     #{Paint[" - @mikemackintosh", :bright, :white]}
 BANNER
   end
 end
