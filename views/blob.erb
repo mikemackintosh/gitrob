@@ -1,7 +1,7 @@
 <div id="blob">
 <% if @blob.findings.count.zero? %>
   <div class="alert alert-info" role="alert">
-    <strong>No findings</strong>
+    <strong>No findings - This might be a private repo.</strong>
   </div>
 <% else %>
   <% @blob.findings.each do |finding| %>
@@ -19,4 +19,6 @@
 <%=h @blob.content %>
 </pre>
 
-<p class="pull-right"><a href="<%=h @blob.url %>" target="_blank">View file on GitHub</a></p>
+<p class="pull-right"><a href="<%=h @blob.curl %>" target="_blank">View file i context on GitHub</a></p>
+
+<p class="pull-right"><a href="<%=h @blob.url %>" target="_blank">View the raw file on GitHub</a></p>
