@@ -19,7 +19,7 @@ module Gitrob
     end
 
     def curl
-      "https://github.com/#{URI.escape(owner_name)}/#{URI.escape(repo.name)}/search?utf8=%E2%9C%93&q=filename%3A#{URI.escape(filename)}+#{@blob.findings.first}+&type=Code"
+      "https://github.com/#{URI.escape(owner_name)}/#{URI.escape(repo.name)}/search?utf8=%E2%9C%93&q=filename%3A#{URI.escape(filename)}+#{findings.first}+&type=Code"
     end
 
     def owner_name
