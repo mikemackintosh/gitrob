@@ -18,6 +18,10 @@ module Gitrob
       "https://github.com/#{URI.escape(owner_name)}/#{URI.escape(repo.name)}/blob/master/#{URI.escape(path)}"
     end
 
+    def curl
+      "https://github.com/#{URI.escape(owner_name)}/#{URI.escape(repo.name)}/search?utf8=%E2%9C%93&q=filename%3A#{URI.escape(filename)}+#{@blob.findings.first}+&type=Code"
+    end
+
     def owner_name
       repo.user.nil? ? repo.organization.login : repo.user.username
     end

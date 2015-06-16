@@ -23,10 +23,6 @@ module Gitrob
         "https://github.com/#{URI.escape(repository.owner)}/#{URI.escape(repository.name)}/blob/master/#{URI.escape(path)}"
       end
 
-      def curl
-        "https://github.com/#{URI.escape(repository.owner)}/#{URI.escape(repository.name)}/search?utf8=%E2%9C%93&q=filename%3A#{URI.escape(path)}+#{@blob.findings.first}+&type=Code"
-      end
-
       def to_model(organization, repository)
         repository.blobs.new(
           :path           => self.path,
